@@ -24,6 +24,7 @@ enum PageState {
   INTERVIEW,
   FIRST_PASS,
   SECOND_PASS,
+  PROBE_LIST, //adding probe list
   THIRD_PASS,
   FOURTH_PASS,
 }
@@ -56,6 +57,7 @@ class _CollectionStateMachineState extends State<CollectionStateMachine> {
     PageState.INTERVIEW: "Interview Information",
     PageState.FIRST_PASS: "First Pass",
     PageState.SECOND_PASS: "Second Pass",
+    PageState.PROBE_LIST: "Probe List", //additional probe state
     PageState.THIRD_PASS: "Third Pass",
     PageState.FOURTH_PASS: "Fourth Pass",
   };
@@ -128,6 +130,14 @@ class _CollectionStateMachineState extends State<CollectionStateMachine> {
         rCodeMap: _rCodeMap,
         fctMap: _fctMap,
       ),
+      /*
+      PageState.PROBE_LIST: InfoDataCard(
+          navigatePageStateForward: (){switchToNewPageState(PageState.FIRST_PASS);},
+          navigatePageStateBackward: (){switchToNewPageState(PageState.SENSITISATION);},
+          updatePageState:(interviewData)=> {consumptionData.interviewData = interviewData},
+          initialInterviewData: consumptionData.interviewData,
+        ),
+        */
       PageState.THIRD_PASS: RecipeItemList(
         navigatePageStateBack: (){ switchToNewPageState(PageState.SECOND_PASS);},
         navigatePageStateForward: (){ switchToNewPageState(PageState.FOURTH_PASS);},
