@@ -19,8 +19,9 @@ class FoodItemList extends StatefulWidget {
   final updatePageState;
   final Map<String, FoodItem> recipeMap;
   final NewData newData;
+  final myController = TextEditingController();
 
-  const FoodItemList({
+  FoodItemList({
     @required this.navigatePageStateForward,
     @required this.updatePageState,
     @required this.recipeMap,
@@ -34,6 +35,24 @@ class FoodItemList extends StatefulWidget {
       child: Text("Close"),
       onPressed: () => Navigator.pop(context),
     );
+        Widget deleteButton = TextButton(
+      child: Text("Delete"),
+      onPressed: () {
+        var testing = int.parse(myController.text);
+        //The code below is to test the type
+        print(testing);
+        if(testing is int){
+          print('it is an integer');
+        }
+        else if(testing is String){
+          print('it is a string');
+        }
+
+        Navigator.pop(context);
+        
+        }
+        
+    );
 
     // set up the AlertDialog
     AlertDialog delete = AlertDialog(
@@ -44,6 +63,7 @@ class FoodItemList extends StatefulWidget {
           new Text(
               'Delete the item by first selecting the number, then deleting the item. Note, this action cannot be undone.'),
           new TextField(
+              controller: myController,
               decoration: new InputDecoration(labelText: "Enter your number"),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
@@ -52,6 +72,7 @@ class FoodItemList extends StatefulWidget {
         ],
       ),
       actions: [
+        deleteButton,
         cancelButton,
       ],
     );
