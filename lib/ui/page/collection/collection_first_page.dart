@@ -19,8 +19,8 @@ class FoodItemList extends StatefulWidget {
   final updatePageState;
   final Map<String, FoodItem> recipeMap;
   final NewData newData;
-  final myController = TextEditingController();
-
+  final myController = TextEditingController(); //myController includes the number they have put in as input
+  
   FoodItemList({
     @required this.navigatePageStateForward,
     @required this.updatePageState,
@@ -29,33 +29,33 @@ class FoodItemList extends StatefulWidget {
     this.newData,
   });
 
-  showDeleteDialog(BuildContext context) {
+
+  showNumberDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Close"),
       onPressed: () => Navigator.pop(context),
     );
-        Widget deleteButton = TextButton(
-      child: Text("Delete"),
-      onPressed: () {
-        var testing = int.parse(myController.text);
-        //The code below is to test the type
-        print(testing);
-        if(testing is int){
+    Widget deleteButton = TextButton(
+        child: Text("Confirm"),
+        onPressed: () {
+          Navigator.pop(context);
+          var digit = int.parse(myController.text);
+          return digit;
+          //The code below is to test the type
+          /*
+        print(digit);
+        if(digit is int){
           print('it is an integer');
         }
-        else if(testing is String){
+        else if(digit is String){
           print('it is a string');
         }
-
-        Navigator.pop(context);
-        
-        }
-        
-    );
+        */
+        });
 
     // set up the AlertDialog
-    AlertDialog delete = AlertDialog(
+    AlertDialog confirm = AlertDialog(
       title: Text("Help"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -81,9 +81,11 @@ class FoodItemList extends StatefulWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return delete;
+        return confirm;
       },
     );
+    var digit = int.parse(myController.text);
+    return digit;
   }
 
 //Alert
@@ -133,12 +135,14 @@ class FoodItemList extends StatefulWidget {
 
   @override
   _FoodItemListState createState() => _FoodItemListState();
+  
 }
 
 class _FoodItemListState extends State<FoodItemList> {
   List<FoodItem> _foodList = <FoodItem>[];
   ValueChanged<List<FoodItem>> updatePageState;
   final _formKey = GlobalKey<FormState>();
+  //FoodItemList.myController.text;
 
   @override
   void initState() {
@@ -146,6 +150,7 @@ class _FoodItemListState extends State<FoodItemList> {
     print(widget.recipeMap);
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -194,15 +199,28 @@ class _FoodItemListState extends State<FoodItemList> {
                   },
                 ),
                 ElevatedButton(
-                    child: const Text('Remove Item Number'),
+                    child: const Text('Choose Item Number'),
                     style: ElevatedButton.styleFrom(
                         primary: Theme.of(context).accentColor,
                         elevation: 4,
                         onSurface: Colors.blueGrey),
                     onPressed: () {
-                      widget.showDeleteDialog(context);
+                      widget.showNumberDialog(context);
                       // setState(() {
                       //   _foodList.removeAt(2);}
+                    }),
+                ElevatedButton(
+                    child: const Text('Delete Item'),
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).accentColor,
+                        elevation: 4,
+                        onSurface: Colors.blueGrey),
+                    onPressed: () {
+                      setState(
+                        () {
+                          _foodList.removeAt(1);
+                        },
+                      );
                     }),
                 ElevatedButton(
                   child: const Text('Go to Second Pass'),
@@ -346,3 +364,4 @@ class FoodItemCard extends StatelessWidget {
     );
   }
 }
+
