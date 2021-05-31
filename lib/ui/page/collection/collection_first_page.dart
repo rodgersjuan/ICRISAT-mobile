@@ -6,10 +6,7 @@ import 'package:flutter_uikit/model/consumption_data.dart';
 
 //import 'package:flutter_uikit/utils/uidata.dart';
 import 'package:flutter_uikit/utils/form_strings.dart';
-
 import 'package:flutter_uikit/ui/widgets/collection_question.dart';
-
-
 import 'package:flutter_uikit/model/food_item.dart';
 import 'package:flutter_uikit/ui/decorations.dart';
 import 'package:flutter_uikit/utils/uidata.dart';
@@ -80,9 +77,7 @@ class FoodItemList extends StatefulWidget {
 }
 
 class _FoodItemListState extends State<FoodItemList> {
-  //List<FoodItem> _foodList = [];
-  // ignore: deprecated_member_use
-  List<FoodItem> _foodList = List<FoodItem>();
+  List<FoodItem> _foodList = <FoodItem>[];
   ValueChanged<List<FoodItem>> updatePageState;
   final _formKey = GlobalKey<FormState>();
 
@@ -112,6 +107,7 @@ class _FoodItemListState extends State<FoodItemList> {
                       });
                     },
                     child: FoodItemCard(
+                      listnumber: _foodList.indexOf(_foodList[index]) + 1,
                       updateFoodItemState: (foodItem) {
                         _foodList[index] = foodItem;
                       },
@@ -187,6 +183,7 @@ class _FoodItemListState extends State<FoodItemList> {
             ),
           ),
         ],
+
       ),
     );
   }
@@ -197,13 +194,18 @@ class FoodItemCard extends StatelessWidget {
   final updateFoodItemState;
   final bool enabled;
   final Map<String, FoodItem> recipeMap;
+  final int listnumber;
 
   const FoodItemCard({
     @required this.foodItem,
     @required this.updateFoodItemState,
+    @required this.listnumber,
     this.recipeMap,
     this.enabled,
+
   });
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -213,6 +215,7 @@ class FoodItemCard extends StatelessWidget {
 //      height: MediaQuery.of(context).size.height,
         child: Column(
           children: <Widget>[
+            Text("Food Item Number " + listnumber.toString() ),
             /*
               FormQuestion(
                       questionText: "What did you eat today?",

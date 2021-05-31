@@ -53,8 +53,15 @@ class IngredientItem{
   MeasurementMethodSelection measurementMethod;
   double measurement;
 
-  IngredientItem({this.foodItemName, this.rDescription, this.fctCode, this.rCode,
-      this.formWhenEaten, this.measurementUnit, this.measurement, this.measurementMethod});
+  IngredientItem({this.foodItemName,
+    this.rDescription,
+    this.fctCode,
+    this.rCode,
+    this.formWhenEaten,
+    this.measurementUnit,
+    this.measurement,
+    this.measurementMethod
+    });
 
   Map<String, dynamic> toJson() =>
       {
