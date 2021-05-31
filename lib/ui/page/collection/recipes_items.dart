@@ -84,9 +84,10 @@ class _RecipeItemListState extends State<RecipeItemList> {
             children: <Widget>[
               ElevatedButton(
                 child: const Text('Probe List'),
-                //color: Theme.of(context).accentColor,
-                //elevation: 4.0,
-                //splashColor: Colors.blueGrey,
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).accentColor,                      
+                      elevation: 4,
+                      onSurface: Colors.blueGrey),
                 onPressed: () {
                   widget.navigatePageStateBack();
                 },
@@ -103,9 +104,10 @@ class _RecipeItemListState extends State<RecipeItemList> {
               ),
               ElevatedButton(
                 child: const Text('Fourth Pass'),
-                //color: Theme.of(context).accentColor,
-                //elevation: 4.0,
-                //splashColor: Colors.blueGrey,
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).accentColor,                      
+                      elevation: 4,
+                      onSurface: Colors.blueGrey),
                 onPressed: () {
                     widget.navigatePageStateForward();
                 },
@@ -417,7 +419,7 @@ class _RecipeExpansionTileState extends State<RecipeExpansionTile> {
                       questionText: "Ingredient Description",
                       hintText: null,
                       initialText: ingredientItem.rDescription ?? "",                          // TO DO! Settle this properly please
-                      validate: emptyFieldValidator,
+                      //validate: emptyFieldValidator,
                       enabled: (enabled??true),
                     ),
                     DialogPicker(
