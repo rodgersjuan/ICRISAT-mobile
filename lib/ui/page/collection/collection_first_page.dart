@@ -10,6 +10,7 @@ import 'package:flutter_uikit/ui/widgets/collection_question.dart';
 import 'package:flutter_uikit/model/food_item.dart';
 import 'package:flutter_uikit/ui/decorations.dart';
 import 'package:flutter_uikit/utils/uidata.dart';
+import 'package:flutter_uikit/ui/page/collection/item_number.dart';
 
 
 
@@ -117,13 +118,14 @@ class _FoodItemListState extends State<FoodItemList> {
               },
             ),
           ),
+
           new FittedBox(
             fit: BoxFit.contain,
             child: ButtonBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
+                
                 ElevatedButton(
-                  //RaisedButton
                   child: const Text('Add new Food'),
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).accentColor,
@@ -135,8 +137,8 @@ class _FoodItemListState extends State<FoodItemList> {
                     });
                   },
                 ),
+                /*
                 ElevatedButton(
-                  //RaisedButton
                   child: const Text('Remove Last Item'),
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).accentColor,                      
@@ -144,12 +146,12 @@ class _FoodItemListState extends State<FoodItemList> {
                       onSurface: Colors.blueGrey),
                   onPressed: () {
                     setState(() {
-                      _foodList.removeLast();
+                      _foodList.removeAt(2);
                     });
                   },
                 ),
+                */             
                 ElevatedButton(
-                  //RaisedButton
                   child: const Text('Go to Second Pass'),
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).accentColor,
@@ -165,7 +167,6 @@ class _FoodItemListState extends State<FoodItemList> {
                   },
                 ),
                 ElevatedButton(
-                  //RaisedButton
                   child: const Text("Help"),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.red,
@@ -175,8 +176,7 @@ class _FoodItemListState extends State<FoodItemList> {
                     widget.updatePageState(_foodList);  
                       widget.showAlertDialog(context);                  
                       print(_foodList);
-                      print(FoodItem());
-                    
+                      print(FoodItem());                    
                   },
                 ),
               ],
@@ -196,12 +196,13 @@ class FoodItemCard extends StatelessWidget {
   final Map<String, FoodItem> recipeMap;
   final int listnumber;
 
+
   const FoodItemCard({
     @required this.foodItem,
     @required this.updateFoodItemState,
     @required this.listnumber,
     this.recipeMap,
-    this.enabled,
+    this.enabled, 
 
   });
 
@@ -277,6 +278,20 @@ class FoodItemCard extends StatelessWidget {
               },
               initialSelectedOption: foodItem?.timeOfDay?.index ?? 0,
             ),
+            
+            
+            ElevatedButton(
+                  //RaisedButton
+                  child: const Text("Remove this Item"),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      elevation: 4,
+                      onSurface: Colors.blueGrey),
+                  onPressed: () {
+                    //_FoodItemListState._foodList.removeAt(listnumber);
+                  },
+                ),
+                
             SizedBox(
               height: 10.0,
             ),

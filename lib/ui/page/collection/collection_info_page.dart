@@ -29,6 +29,7 @@ class InfoDataCard extends StatefulWidget {
 
   @override
   _InfoDataCardState createState() => _InfoDataCardState();
+
 }
 
 class _InfoDataCardState extends State<InfoDataCard> {
@@ -76,7 +77,8 @@ class _InfoDataCardState extends State<InfoDataCard> {
 
   Future<void> getDayCode(int dayCode) async {
     //function which rebuilds page when Day Code changed
-    int _code = dayCode; //await dayCode;
+    // ignore: await_only_futures
+    int _code = await dayCode;
     print('DayCode updated to ${DayCode.values[_code]}');
     setState(() {});
   }
