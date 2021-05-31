@@ -10,9 +10,8 @@ import 'package:flutter_uikit/ui/widgets/collection_question.dart';
 import 'package:flutter_uikit/model/food_item.dart';
 import 'package:flutter_uikit/ui/decorations.dart';
 import 'package:flutter_uikit/utils/uidata.dart';
-import 'package:flutter_uikit/ui/page/collection/item_number.dart';
-
-
+import 'package:flutter/services.dart';
+//import 'package:flutter_uikit/ui/page/collection/item_number.dart';
 
 class FoodItemList extends StatefulWidget {
   final navigatePageStateForward;
@@ -28,38 +27,75 @@ class FoodItemList extends StatefulWidget {
     this.initialFoodList,
     this.newData,
   });
-//Alert
-  showAlertDialog(BuildContext context) {
 
+  showDeleteDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Close"),
-      onPressed:  () => Navigator.pop(context),
+      onPressed: () => Navigator.pop(context),
+    );
+
+    // set up the AlertDialog
+    AlertDialog delete = AlertDialog(
+      title: Text("Help"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          new Text(
+              'Delete the item by first selecting the number, then deleting the item. Note, this action cannot be undone.'),
+          new TextField(
+              decoration: new InputDecoration(labelText: "Enter your number"),
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ]),
+        ],
+      ),
+      actions: [
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return delete;
+      },
+    );
+  }
+
+//Alert
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Close"),
+      onPressed: () => Navigator.pop(context),
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Help"),
       content: Column(
-      children: <Widget>[
-        new ListTile(
-          title: new Text('This pass is to ensure all the normal food is collected, and follows the requirements below:'),
-        ),
-        new ListTile(
-          leading: new MyBullet(),
-          title: new Text('It is not too vague'),
-        ),
-        new ListTile(
-          leading: new MyBullet(),
-          title: new Text('It cannot involve any cooking methods'),
-        ),
-        new ListTile(
-          leading: new MyBullet(),
-          title: new Text('Condiments should be entered separately'),
-        )
-      ],
+        children: <Widget>[
+          new ListTile(
+            title: new Text(
+                'This pass is to ensure all the normal food is collected, and follows the requirements below:'),
+          ),
+          new ListTile(
+            leading: new MyBullet(),
+            title: new Text('It is not too vague'),
+          ),
+          new ListTile(
+            leading: new MyBullet(),
+            title: new Text('It cannot involve any cooking methods'),
+          ),
+          new ListTile(
+            leading: new MyBullet(),
+            title: new Text('Condiments should be entered separately'),
+          )
+        ],
       ),
-      
       actions: [
         cancelButton,
       ],
@@ -73,6 +109,7 @@ class FoodItemList extends StatefulWidget {
       },
     );
   }
+
   @override
   _FoodItemListState createState() => _FoodItemListState();
 }
@@ -118,13 +155,11 @@ class _FoodItemListState extends State<FoodItemList> {
               },
             ),
           ),
-
           new FittedBox(
             fit: BoxFit.contain,
             child: ButtonBar(
               alignment: MainAxisAlignment.center,
               children: <Widget>[
-                
                 ElevatedButton(
                   child: const Text('Add new Food'),
                   style: ElevatedButton.styleFrom(
@@ -137,20 +172,17 @@ class _FoodItemListState extends State<FoodItemList> {
                     });
                   },
                 ),
-                /*
                 ElevatedButton(
-                  child: const Text('Remove Last Item'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).accentColor,                      
-                      elevation: 4,
-                      onSurface: Colors.blueGrey),
-                  onPressed: () {
-                    setState(() {
-                      _foodList.removeAt(2);
-                    });
-                  },
-                ),
-                */             
+                    child: const Text('Remove Item Number'),
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).accentColor,
+                        elevation: 4,
+                        onSurface: Colors.blueGrey),
+                    onPressed: () {
+                      widget.showDeleteDialog(context);
+                      // setState(() {
+                      //   _foodList.removeAt(2);}
+                    }),
                 ElevatedButton(
                   child: const Text('Go to Second Pass'),
                   style: ElevatedButton.styleFrom(
@@ -173,17 +205,16 @@ class _FoodItemListState extends State<FoodItemList> {
                       elevation: 4,
                       onSurface: Colors.blueGrey),
                   onPressed: () {
-                    widget.updatePageState(_foodList);  
-                      widget.showAlertDialog(context);                  
-                      print(_foodList);
-                      print(FoodItem());                    
+                    widget.updatePageState(_foodList);
+                    widget.showAlertDialog(context);
+                    print(_foodList);
+                    print(FoodItem());
                   },
                 ),
               ],
             ),
           ),
         ],
-
       ),
     );
   }
@@ -196,17 +227,13 @@ class FoodItemCard extends StatelessWidget {
   final Map<String, FoodItem> recipeMap;
   final int listnumber;
 
-
   const FoodItemCard({
     @required this.foodItem,
     @required this.updateFoodItemState,
     @required this.listnumber,
     this.recipeMap,
-    this.enabled, 
-
+    this.enabled,
   });
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +243,7 @@ class FoodItemCard extends StatelessWidget {
 //      height: MediaQuery.of(context).size.height,
         child: Column(
           children: <Widget>[
-            Text("Food Item Number " + listnumber.toString() ),
+            Text("Food Item Number " + listnumber.toString()),
             /*
               FormQuestion(
                       questionText: "What did you eat today?",
@@ -229,7 +256,7 @@ class FoodItemCard extends StatelessWidget {
                       enabled: enabled,
                     ),
             */
-            
+
             AutoCompleteTextField(
               suggestions: recipeMap?.keys?.toList() ?? [],
               onSuggestionSelected: (String selected) {
@@ -255,20 +282,16 @@ class FoodItemCard extends StatelessWidget {
               initialText: foodItem.foodName ?? "",
               enabled: (enabled ?? true),
               validate: emptyFieldValidator,
-              
-              
               noItemsFoundBuilder: (BuildContext ctx) {
                 return TextButton(
                   //FlatButton
                   child: Text("No Recipes Found! Click to create a new recipe"),
                   onPressed: () =>
                       Navigator.pushNamed(ctx, UIData.NewRecipeRoute),
-                      //Push a named route onto the navigator that most tightly encloses the given context.
+                  //Push a named route onto the navigator that most tightly encloses the given context.
                 );
               },
-              
             ),
-            
             DialogPicker(
               questionText: "What time did you eat it?",
               optionsList: FormStrings.timeOfDaySelection.values.toList(),
@@ -278,8 +301,8 @@ class FoodItemCard extends StatelessWidget {
               },
               initialSelectedOption: foodItem?.timeOfDay?.index ?? 0,
             ),
-            
-            
+
+            /*
             ElevatedButton(
                   //RaisedButton
                   child: const Text("Remove this Item"),
@@ -288,10 +311,11 @@ class FoodItemCard extends StatelessWidget {
                       elevation: 4,
                       onSurface: Colors.blueGrey),
                   onPressed: () {
-                    //_FoodItemListState._foodList.removeAt(listnumber);
+                    _FoodItemListState._foodList.removeAt(listnumber);
                   },
                 ),
-                
+                */
+
             SizedBox(
               height: 10.0,
             ),
