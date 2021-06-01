@@ -20,7 +20,7 @@ class FoodItemList extends StatefulWidget {
   final Map<String, FoodItem> recipeMap;
   final NewData newData;
   final myController = TextEditingController(); //myController includes the number they have put in as input
-  
+
   FoodItemList({
     @required this.navigatePageStateForward,
     @required this.updatePageState,
@@ -29,18 +29,20 @@ class FoodItemList extends StatefulWidget {
     this.newData,
   });
 
-
   showNumberDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text("Close"),
       onPressed: () => Navigator.pop(context),
     );
-    Widget deleteButton = TextButton(
+    Widget confirmButton = TextButton(
         child: Text("Confirm"),
         onPressed: () {
           Navigator.pop(context);
-          var digit = int.parse(myController.text);
+          var digit = int.parse(myController.text); //this returns the value of which pass that needs to be exported
+          print(initialFoodList);
+          initialFoodList.removeAt(digit - 1);
+          print(initialFoodList);
           return digit;
           //The code below is to test the type
           /*
@@ -57,11 +59,13 @@ class FoodItemList extends StatefulWidget {
     // set up the AlertDialog
     AlertDialog confirm = AlertDialog(
       title: Text("Help"),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           new Text(
-              'Delete the item by first selecting the number, then deleting the item. Note, this action cannot be undone.'),
+              'Delete the item by first selecting the number, then deleting the item. This part is to enter your number.'),
           new TextField(
               controller: myController,
               decoration: new InputDecoration(labelText: "Enter your number"),
@@ -72,7 +76,7 @@ class FoodItemList extends StatefulWidget {
         ],
       ),
       actions: [
-        deleteButton,
+        confirmButton, //adds a confirming button to update the number
         cancelButton,
       ],
     );
@@ -99,25 +103,41 @@ class FoodItemList extends StatefulWidget {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Help"),
-      content: Column(
-        children: <Widget>[
-          new ListTile(
-            title: new Text(
-                'This pass is to ensure all the normal food is collected, and follows the requirements below:'),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      content: Container(
+        height: 200,
+        width: 300,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              new ListTile(
+                title: new Text(
+                    'This pass is to ensure all the normal food is collected, replaces Section A of the form and follows the requirements below:'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text('All the food items consumed in the past 24 hours, along with time.'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text('Includes main meal and all stack'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text('It is not too vague'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text('It cannot involve any cooking methods'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text('Condiments should be entered separately'),
+              )
+            ],
           ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text('It is not too vague'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text('It cannot involve any cooking methods'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text('Condiments should be entered separately'),
-          )
-        ],
+        ),
       ),
       actions: [
         cancelButton,
@@ -135,7 +155,6 @@ class FoodItemList extends StatefulWidget {
 
   @override
   _FoodItemListState createState() => _FoodItemListState();
-  
 }
 
 class _FoodItemListState extends State<FoodItemList> {
@@ -150,7 +169,6 @@ class _FoodItemListState extends State<FoodItemList> {
     print(widget.recipeMap);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -206,8 +224,6 @@ class _FoodItemListState extends State<FoodItemList> {
                         onSurface: Colors.blueGrey),
                     onPressed: () {
                       widget.showNumberDialog(context);
-                      // setState(() {
-                      //   _foodList.removeAt(2);}
                     }),
                 ElevatedButton(
                     child: const Text('Delete Item'),
@@ -364,4 +380,3 @@ class FoodItemCard extends StatelessWidget {
     );
   }
 }
-
