@@ -225,13 +225,6 @@ class SecondPassFoodItemCard extends StatelessWidget {
     this.enabled,
   });
 
-  Future<void> getSourceCode(int sourceCode) async {
-    //function which rebuilds page when Source Code changed
-    int _code = await sourceCode;
-    //ignore error above
-    print('Source updated to ${SourceOfFoodSelection.values[_code]}');
-  }
-
   @override
   Widget build(BuildContext context) {
     bool _firstbuild = true;
