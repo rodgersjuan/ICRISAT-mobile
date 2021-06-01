@@ -45,56 +45,71 @@ class RecipeItemList extends StatefulWidget {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Help"),
-      content: Column(
-        children: <Widget>[
-          Text(
-              'This pass replaces Section D and E of the form. Starting with the first food item recorded in first pass.'),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'Ask the mother to bring the plate, cup, bowls, spoons, glasses or any other items used to consume and serve foods'),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      content: Container(
+        height: 200,
+        width: 300,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              new Text('This pass replaces Section D and E of the form.'),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Start with the first food item recorded in first pass.'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Ask the mother to bring the plate, cup, bowls, spoons, glasses or any other items used to consume and serve foods'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Refer to the measurement list and choose the best method to use'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Inform the mother and illustrate how you intend to estimate the quantity used'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text('You will need 2 plates '),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Ask the mother to show you the food exactly as she recalls it in size/ shape, quantity or level when she served it yesterday on plate 1'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Ask if all the food served was consumed or if something was left in the end'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'If some was left, ask her to take out what was left (reduce the amount) and put it on plate 2'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Ask if there were other servings, and repeat the procedure if necessary'),
+              ),
+              new ListTile(
+                leading: new MyBullet(),
+                title: new Text(
+                    'Clarify to the respondent that you are referring to the servings during the same sitting or eating episode'),
+              ),
+            ],
           ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'Refer to the measurement list and choose the best method to use'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'Inform the mother and illustrate how you intend to estimate the quantity used'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'You will need 2 plates '),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'Ask the mother to show you the food exactly as she recalls it in size/ shape, quantity or level when she served it yesterday on plate 1'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'Ask if all the food served was consumed or if something was left in the end'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'If some was left, ask her to take out what was left (reduce the amount) and put it on plate 2'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'Ask if there were other servings, and repeat the procedure if necessary'),
-          ),
-          new ListTile(
-            leading: new MyBullet(),
-            title: new Text(
-                'Clarify to the respondent that you are referring to the servings during the same sitting or eating episode'),
-          ),
-        ],
+        ),
       ),
       actions: [
         cancelButton,
@@ -345,8 +360,8 @@ class _RecipeExpansionTileState extends State<RecipeExpansionTile> {
               } else
                 addIngredientItemIntoRecipe();
             },
-            // ignore: unnecessary_statements
           ))
+        // ignore: unnecessary_statements
         : null;
     return output;
   }
