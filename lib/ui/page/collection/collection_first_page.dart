@@ -15,6 +15,9 @@ import 'package:flutter/services.dart';
 
 class FoodItemList extends StatefulWidget {
   final navigatePageStateForward;
+  final navigatePageStateBackward;
+  final navigateHome;
+  final navigateDummy;
   final List<FoodItem> initialFoodList;
   final updatePageState;
   final Map<String, FoodItem> recipeMap;
@@ -25,6 +28,9 @@ class FoodItemList extends StatefulWidget {
     @required this.navigatePageStateForward,
     @required this.updatePageState,
     @required this.recipeMap,
+    @required this.navigatePageStateBackward,
+    @required this.navigateHome,
+    @required this.navigateDummy,
     this.initialFoodList,
     this.newData,
   });
@@ -169,7 +175,11 @@ class _FoodItemListState extends State<FoodItemList> {
     print(widget.recipeMap);
     super.initState();
   }
-
+  Future updateState() async {
+    //function which rebuilds page when Day Code changed
+    // ignore: await_only_futures
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -201,7 +211,7 @@ class _FoodItemListState extends State<FoodItemList> {
           ),
           new FittedBox(
             fit: BoxFit.contain,
-            child: ButtonBar(
+            child: ButtonBar(             
               alignment: MainAxisAlignment.center,
               children: <Widget>[
                 ElevatedButton(
@@ -217,28 +227,93 @@ class _FoodItemListState extends State<FoodItemList> {
                   },
                 ),
                 ElevatedButton(
-                    child: const Text('Choose Item Number'),
+                    child: const Text('Delete Specific Item'),
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).accentColor,
+                        primary: Colors.red,
                         elevation: 4,
                         onSurface: Colors.blueGrey),
                     onPressed: () {
                       widget.showNumberDialog(context);
+                      updateState();
                     }),
                 ElevatedButton(
-                    child: const Text('Delete Item'),
+                    child: const Text('Delete Last Item'),
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).accentColor,
+                        primary: Colors.red,
                         elevation: 4,
                         onSurface: Colors.blueGrey),
                     onPressed: () {
                       setState(
                         () {
-                          _foodList.removeAt(1);
+                          _foodList.removeLast();
                         },
                       );
                     }),
+                
                 ElevatedButton(
+                  child: const Text("Help"),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.lightBlue[200],
+                      elevation: 4,
+                      onSurface: Colors.blueGrey),
+                  onPressed: () {
+                    widget.updatePageState(_foodList);
+                    widget.showAlertDialog(context);
+                    print(_foodList);
+                    print(FoodItem());
+                  },
+                ),
+              ],
+            ),
+          ),
+          new FittedBox(
+            fit: BoxFit.contain,
+            child: ButtonBar(             
+              alignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  child: const Text('Go to Interview Info'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).accentColor,
+                      elevation: 4,
+                      onSurface: Colors.blueGrey),
+                  onPressed: () {
+                    final form = _formKey.currentState;
+                    if (form.validate()) {
+                      form.save();
+                      widget.updatePageState(_foodList);
+                      widget.navigatePageStateBackward();
+                    }
+                  },
+                ),
+                
+                ElevatedButton(
+                  child: const Text('Update Page'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).accentColor,
+                      elevation: 4,
+                      onSurface: Colors.blueGrey),
+                  onPressed: () {
+                   updateState();
+                  },
+                  ),
+                
+                ElevatedButton(
+                  child: const Text('Home Page'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.lightBlue[200],
+                      elevation: 4,
+                      onSurface: Colors.blueGrey),
+                  onPressed: () {
+                    final form = _formKey.currentState;
+                    if (form.validate()) {
+                      form.save();
+                      widget.updatePageState(_foodList);
+                      widget.navigateHome();
+                    }
+                  },
+                ),
+                    ElevatedButton(
                   child: const Text('Go to Second Pass'),
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).accentColor,
@@ -251,19 +326,6 @@ class _FoodItemListState extends State<FoodItemList> {
                       widget.updatePageState(_foodList);
                       widget.navigatePageStateForward();
                     }
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text("Help"),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
-                      elevation: 4,
-                      onSurface: Colors.blueGrey),
-                  onPressed: () {
-                    widget.updatePageState(_foodList);
-                    widget.showAlertDialog(context);
-                    print(_foodList);
-                    print(FoodItem());
                   },
                 ),
               ],
